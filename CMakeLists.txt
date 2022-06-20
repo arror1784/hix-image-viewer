@@ -1,10 +1,7 @@
 cmake_minimum_required(VERSION 3.0.0)
 project(SimpleImageViewerFromIPC VERSION 0.1.0)
 
-include(CTest)
-enable_testing()
-
-add_executable(SimpleImageViewerFromIPC main.c)
+add_executable(SimpleImageViewerFromIPC main.cpp base64.cpp)
 
 find_package(PkgConfig REQUIRED)
 pkg_check_modules(GTK3 gtk+-3.0 REQUIRED)
@@ -15,8 +12,12 @@ target_compile_options(SimpleImageViewerFromIPC PUBLIC
             -mtune=native
             -no-pie
             -lm)
+            
+target_link_libraries(SimpleImageViewerFromIPC PUBLIC ${GTK3_LIBRARIES})
+
 target_include_directories(SimpleImageViewerFromIPC PUBLIC
-            ${workspaceFolder}/**
+            ${CMAKE_SOURCE_DIR}
+            ${GTK3_INCLUDE_DIRS}
             /usr/lib/x86_64-linux-gnu/glib-2.0/include/
             /usr/lib/x86_64-linux-gnu/
             /usr/include/gtk-3.0
