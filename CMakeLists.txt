@@ -26,7 +26,9 @@ if(${CMAKE_CXX_COMPILER} MATCHES arm)
         list(APPEND GTK_LIB "${i}")
         message("${i}")
     endforeach()
+
     message(" include path")
+    
     foreach(i ${GTK3_INCLUDE_DIRS})
         list(APPEND GTK_INC "${CMAKE_SYSROOT}${i}")
         message("${CMAKE_SYSROOT}${i}")
@@ -36,12 +38,12 @@ if(${CMAKE_CXX_COMPILER} MATCHES arm)
 else()
 
     foreach(i ${GTK3_INCLUDE_DIRS})
-        list(APPEND GTK_INC i)
+        list(APPEND GTK_INC "${i}")
     endforeach()
     foreach(i ${GTK3_LIBRARIES})
-        list(APPEND GTK_LIB i)
+        list(APPEND GTK_LIB "${i}")
     endforeach()
-    
+
     target_include_directories(SimpleImageViewerFromIPC
 
     PUBLIC
@@ -54,15 +56,15 @@ endif()
 
 target_compile_options(SimpleImageViewerFromIPC
 PUBLIC
-            -lrt
-            -lm
-            -Wall
-            -Wextra
-            -no-pie)
+    -lrt
+    -lm
+    -Wall
+    -Wextra
+    -no-pie)
 
 target_link_libraries(SimpleImageViewerFromIPC
 PUBLIC
-    ${GTK_LIB}
+    ${GTK3_LIBRARIES}
     -lrt
     -lm
 )
