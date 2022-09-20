@@ -56,7 +56,7 @@ int main(int argc, char *argv[])
 
 
     GtkWidget *image = gtk_image_new ();
-    g_signal_connect(window, "draw", G_CALLBACK(cb), NULL);
+    // g_signal_connect(window, "draw", G_CALLBACK(cb), NULL);
 
     GdkRectangle workarea = {0};
     gdk_monitor_get_workarea(
@@ -95,9 +95,8 @@ void ipc_thread(GtkWidget *image){
         perror("msgget error : ");
         exit(0);
     }
-
-    GdkPixbufLoader *loader = gdk_pixbuf_loader_new ();
-
+    
+    GdkPixbufLoader *loader = gdk_pixbuf_loader_new();
 
     while(1){
         if (msgrcv( mqKey, &mybuf, sizeof(messageBuf), 1, 0) == -1){
@@ -120,7 +119,7 @@ void ipc_thread(GtkWidget *image){
             height = gtk_widget_get_allocated_height (image);
 
             gdk_pixbuf_loader_write (loader,rw_mmap.begin(), sizeV.GetInt(), NULL);
-            GdkPixbuf *pixbuf = gdk_pixbuf_loader_get_pixbuf (loader);
+            GdkPixbuf *pixbuf = gdk_pixbuf_loader_get_pixbuf(loader);
 
             // pixbuf=gdk_pixbuf_scale_simple(pixbuf,width,height,GDK_INTERP_BILINEAR);
 
