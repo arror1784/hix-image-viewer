@@ -38,30 +38,6 @@ int handle_error(const std::error_code& error);
 void allocate_file(const std::string& path);
 static void destroy(GtkWidget *widget, gpointer data);
 
-static void
-draw_function (GtkDrawingArea *area,
-               cairo_t        *cr,
-               int             width,
-               int             height,
-               gpointer        data)
-{
-  GdkRGBA color;
-  GtkStyleContext *context;
-
-  context = gtk_widget_get_style_context (GTK_WIDGET (area));
-
-  cairo_arc (cr,
-             width / 2.0, height / 2.0,
-             MIN (width, height) / 2.0,
-             0, 2 * G_PI);
-
-  gtk_style_context_get_color (context,
-                               &color);
-  gdk_cairo_set_source_rgba (cr, &color);
-
-  cairo_fill (cr);
-}
-
 void cb(){
     std::cout << "DRAWWWWWWWWWWWw" << std::endl;
 }
