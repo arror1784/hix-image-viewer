@@ -21,7 +21,6 @@ PUBLIC
     -Wall
     -Wextra
     -std=c++17
-    -lstdc++fs
     -no-pie)
 
 target_link_libraries(SimpleImageViewerFromIPC
@@ -30,6 +29,7 @@ PUBLIC
     -lrt
     -lm
     -lpthread
+    -lstdc++fs
 )
 target_include_directories(SimpleImageViewerFromIPC
 PUBLIC
