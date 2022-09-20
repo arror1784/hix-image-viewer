@@ -96,6 +96,9 @@ void ipc_thread(GtkWidget *image){
         exit(0);
     }
 
+    GdkPixbufLoader *loader = gdk_pixbuf_loader_new ();
+
+
     while(1){
         if (msgrcv( mqKey, &mybuf, sizeof(messageBuf), 1, 0) == -1){
             perror( "msgrcv() 실패");
@@ -116,13 +119,10 @@ void ipc_thread(GtkWidget *image){
             width = gtk_widget_get_allocated_width (image);
             height = gtk_widget_get_allocated_height (image);
 
-            GdkPixbufLoader *loader = gdk_pixbuf_loader_new ();
             gdk_pixbuf_loader_write (loader,rw_mmap.begin(), sizeV.GetInt(), NULL);
             GdkPixbuf *pixbuf = gdk_pixbuf_loader_get_pixbuf (loader);
-            // pixbuf=gdk_pixbuf_scale_simple(pixbuf,width,height,GDK_INTERP_BILINEAR);
 
-            gdk_pixbuf_loader_close(loader,NULL);
-            g_object_unref(pixbuf);
+            // pixbuf=gdk_pixbuf_scale_simple(pixbuf,width,height,GDK_INTERP_BILINEAR);
 
             gtk_image_set_from_pixbuf(GTK_IMAGE(image),pixbuf);
 
