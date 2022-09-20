@@ -38,6 +38,33 @@ int handle_error(const std::error_code& error);
 void allocate_file(const std::string& path);
 static void destroy(GtkWidget *widget, gpointer data);
 
+static void
+draw_function (GtkDrawingArea *area,
+               cairo_t        *cr,
+               int             width,
+               int             height,
+               gpointer        data)
+{
+  GdkRGBA color;
+  GtkStyleContext *context;
+
+  context = gtk_widget_get_style_context (GTK_WIDGET (area));
+
+  cairo_arc (cr,
+             width / 2.0, height / 2.0,
+             MIN (width, height) / 2.0,
+             0, 2 * G_PI);
+
+  gtk_style_context_get_color (context,
+                               &color);
+  gdk_cairo_set_source_rgba (cr, &color);
+
+  cairo_fill (cr);
+}
+
+void cb(){
+    std::cout << "DRAWWWWWWWWWWWw" << std::endl;
+}
 int main(int argc, char *argv[])
 {
     gtk_init(&argc, &argv);    
@@ -46,13 +73,14 @@ int main(int argc, char *argv[])
     gtk_window_set_title(GTK_WINDOW(window), "Window");
     // gtk_window_set_default_size(GTK_WINDOW(window), 400, 300);
     g_signal_connect(window, "destroy", G_CALLBACK(destroy), NULL);
-    
+
     gtk_window_fullscreen(GTK_WINDOW(window));
 
     gtk_widget_show_all(window);
 
 
     GtkWidget *image = gtk_image_new ();
+    g_signal_connect(window, "draw", G_CALLBACK(cb), NULL);
 
     GdkRectangle workarea = {0};
     gdk_monitor_get_workarea(
@@ -115,9 +143,14 @@ void ipc_thread(GtkWidget *image){
             GdkPixbufLoader *loader = gdk_pixbuf_loader_new ();
             gdk_pixbuf_loader_write (loader,rw_mmap.begin(), sizeV.GetInt(), NULL);
             GdkPixbuf *pixbuf = gdk_pixbuf_loader_get_pixbuf (loader);
-            pixbuf=gdk_pixbuf_scale_simple(pixbuf,width,height,GDK_INTERP_BILINEAR);
+            // pixbuf=gdk_pixbuf_scale_simple(pixbuf,width,height,GDK_INTERP_BILINEAR);
+
+            gdk_pixbuf_loader_close(loader,NULL);
+            g_object_unref(pixbuf);
 
             gtk_image_set_from_pixbuf(GTK_IMAGE(image),pixbuf);
+
+            gtk_widget_queue_draw(image);
 
         }
         
