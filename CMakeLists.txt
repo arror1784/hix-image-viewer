@@ -18,11 +18,10 @@ message("${GTK3_INCLUDE_DIRS}")
 
 target_compile_options(SimpleImageViewerFromIPC
 PUBLIC
-    -lrt
-    -lm
     -Wall
     -Wextra
     -std=c++17
+    -lstdc++fs
     -no-pie)
 
 target_link_libraries(SimpleImageViewerFromIPC
