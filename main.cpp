@@ -89,6 +89,7 @@ int main(int argc, char *argv[])
 
     gtk_widget_show_all(window);
 
+    gtk_window_set_accept_focus(GTK_WINDOW(window),FALSE);
 
     GdkRectangle workarea = {0};
     gdk_monitor_get_workarea(
@@ -130,7 +131,6 @@ void ipc_thread(GtkWidget *draw){
         exit(0);
     }
 
-
     while(1){
         if (msgrcv( mqKey, &mybuf, sizeof(messageBuf), 1, 0) == -1){
             perror( "msgrcv() 실패");
@@ -153,7 +153,7 @@ void ipc_thread(GtkWidget *draw){
             width = gtk_widget_get_allocated_width (draw);
             height = gtk_widget_get_allocated_height (draw);
 
-            std::cout << "HELLO FUCKING WORLD"<< std::endl;
+            std::cout << "HELLO FUCKING adssdadsadsa WORLD"<< std::endl;
             GdkPixbufLoader *loader = gdk_pixbuf_loader_new();
             gdk_pixbuf_loader_write (loader,rw_mmap.begin(), size, NULL);
             
