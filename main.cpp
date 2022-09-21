@@ -98,8 +98,8 @@ int main(int argc, char *argv[])
 
     GtkWidget *drawing_area = gtk_drawing_area_new();
     gtk_widget_set_size_request (drawing_area,workarea.width, workarea.height);
-    // g_signal_connect (G_OBJECT (drawing_area), "draw",
-                        // G_CALLBACK (draw_callback), NULL);
+    g_signal_connect (G_OBJECT (drawing_area), "draw",
+                        G_CALLBACK (draw_callback), NULL);
 
     std::cout << workarea.width<<workarea.height << std::endl;
 
@@ -154,20 +154,7 @@ void ipc_thread(GtkWidget *draw){
             height = gtk_widget_get_allocated_height (draw);
 
             std::cout << "HELLO FUCKING adssdadsadsa WORLD"<< std::endl;
-            GdkPixbufLoader *loader = gdk_pixbuf_loader_new();
-            gdk_pixbuf_loader_write (loader,rw_mmap.begin(), size, NULL);
-            
-            // size = 0;
-
-            GdkPixbuf *pixbuf = gdk_pixbuf_loader_get_pixbuf(loader);
-
-            auto cr = gdk_cairo_create(gtk_widget_get_window(draw));
-            gdk_cairo_set_source_pixbuf(cr, pixbuf, 0, 0);
-            cairo_paint(cr);
-            
-            gdk_pixbuf_loader_close(loader,NULL);
-
-            // gtk_widget_queue_draw(draw);
+            gtk_widget_queue_draw(draw);
         }
         
     }
