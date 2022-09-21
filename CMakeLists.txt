@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.0.0)
 project(SimpleImageViewerFromIPC VERSION 0.1.0)
 
-add_executable(SimpleImageViewerFromIPC main.cpp base64.cpp)
+add_executable(SimpleImageViewerFromIPC main.cpp base64.cpp communicate.h)
 
 find_package(PkgConfig REQUIRED)
 pkg_check_modules(GTK3 gtk+-3.0 REQUIRED)
