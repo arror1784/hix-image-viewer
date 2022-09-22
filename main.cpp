@@ -31,7 +31,6 @@ static void destroy(GtkWidget *widget, gpointer data);
 
 int size = 0;
 
-int count = 0;
 gboolean draw_callback (GtkWidget *widget, cairo_t *cr, gpointer data)
 {
     // std::cout << Communicate::getInstance()._addr << size << std::endl;
@@ -59,10 +58,6 @@ gboolean draw_callback (GtkWidget *widget, cairo_t *cr, gpointer data)
     gdk_pixbuf_loader_close(loader,NULL);
     g_object_unref(pixbuf);
 
-    count++;
-
-    if(count == 10)
-        exit(0);
     return FALSE;
 }
 
