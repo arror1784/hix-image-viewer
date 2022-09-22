@@ -31,12 +31,14 @@ static void destroy(GtkWidget *widget, gpointer data);
 
 int size = 0;
 
+int count = 0;
 gboolean draw_callback (GtkWidget *widget, cairo_t *cr, gpointer data)
 {
     // std::cout << Communicate::getInstance()._addr << size << std::endl;
 
     if(size == 0)
         return FALSE;
+
     int s = size;
     size = 0;
 
@@ -55,7 +57,12 @@ gboolean draw_callback (GtkWidget *widget, cairo_t *cr, gpointer data)
     cairo_paint(cr);
 
     gdk_pixbuf_loader_close(loader,NULL);
+    g_object_unref(pixbuf);
 
+    count++;
+
+    if(count == 10)
+        exit(0);
     return FALSE;
 }
 
@@ -76,13 +83,14 @@ int main(int argc, char *argv[])
     GtkWidget *canvas = gtk_drawing_area_new ();
     g_signal_connect(canvas, "draw", G_CALLBACK(draw_callback), NULL);
 
+
     GdkRectangle workarea = {0};
     gdk_monitor_get_workarea(
         gdk_display_get_primary_monitor(gdk_display_get_default()),
         &workarea);
     
     gtk_widget_set_size_request(canvas,workarea.width, workarea.height);
-    gtk_window_set_accept_focus(GTK_WINDOW(window),FALSE);
+    gtk_container_add(GTK_CONTAINER(window), canvas);
 
     GdkColor color;
     color.red = 0x00ff;
@@ -95,7 +103,8 @@ int main(int argc, char *argv[])
 
     std::thread th(ipc_thread,canvas);
 
-    gtk_container_add(GTK_CONTAINER(window), canvas);
+    gtk_window_set_accept_focus(GTK_WINDOW(window),FALSE);
+
     gtk_widget_show_all(window);
     gtk_main();
 
