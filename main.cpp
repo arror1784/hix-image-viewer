@@ -10,14 +10,10 @@
 #include <thread>
 #include <filesystem>
 
-#include <sys/types.h>
-#include <sys/ipc.h>
-#include <sys/msg.h>
-
 #define STB_IMAGE_IMPLEMENTATION
 #define STB_IMAGE_WRITE_IMPLEMENTATION
 
-#include <rapidjson/document.h>
+#include "rapidjson/document.h"
 #include "rapidjson/reader.h"
 #include "rapidjson/writer.h"
 #include "rapidjson/stringbuffer.h"
@@ -26,11 +22,6 @@
 #include "stb/stb_image_write.h"
 
 #include  "communicate.h"
-struct messageBuf
-{
-    long msg_type;
-    char mtext[256];
-};
 
 void ipc_thread(GtkWidget *image);
 int handle_error(const std::error_code& error);
@@ -93,6 +84,13 @@ int main(int argc, char *argv[])
     gtk_widget_set_size_request(canvas,workarea.width, workarea.height);
     gtk_window_set_accept_focus(GTK_WINDOW(window),FALSE);
 
+    GdkColor color;
+    color.red = 0x00ff;
+    color.green = 0x00ff;
+    color.blue = 0x00ff;
+
+    // gtk_widget_modify_bg(window, GTK_STATE_NORMAL, &color);
+
     std::cout << workarea.width<<workarea.height << std::endl;
 
     std::thread th(ipc_thread,canvas);
@@ -106,7 +104,6 @@ int main(int argc, char *argv[])
 
 void ipc_thread(GtkWidget *canvas){
 
-    struct messageBuf mybuf;
 
     std::error_code error;
 
@@ -114,16 +111,19 @@ void ipc_thread(GtkWidget *canvas){
 
     Communicate::getInstance();
 
-
-    key_t mqKey = msgget(115200,IPC_CREAT|0666);
-    if (mqKey == -1){
-        perror("msgget error : ");
-        exit(0);
+    while ((1))
+    {
+        messageBuf mybuf;
+        if (!Communicate::getInstance().receiveMessage(&mybuf,false)){
+            std::cout << "msg clear" << std::endl;
+            break;
+        }
     }
-
-
+    
     while(1){
-        if (msgrcv( mqKey, &mybuf, sizeof(messageBuf), 1, 0) == -1){
+        messageBuf mybuf;
+
+        if (!Communicate::getInstance().receiveMessage(&mybuf,true)){
             perror( "msgrcv() 실패");
             exit(0);
         }
