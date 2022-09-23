@@ -74,10 +74,8 @@ int main(int argc, char *argv[])
 
     gtk_widget_show_all(window);
 
-
     GtkWidget *canvas = gtk_drawing_area_new ();
     g_signal_connect(canvas, "draw", G_CALLBACK(draw_callback), NULL);
-
 
     GdkRectangle workarea = {0};
     gdk_monitor_get_workarea(
@@ -92,7 +90,7 @@ int main(int argc, char *argv[])
     color.green = 0x00ff;
     color.blue = 0x00ff;
 
-    // gtk_widget_modify_bg(window, GTK_STATE_NORMAL, &color);
+    gtk_widget_modify_bg(window, GTK_STATE_NORMAL, &color);
 
     std::cout << workarea.width<<workarea.height << std::endl;
 
