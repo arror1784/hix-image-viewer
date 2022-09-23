@@ -1,4 +1,6 @@
-# simpleImageVeiwerFormIPC
+# hix-image-viewer
 
 
-GTK3 
+raspberry pi bug
+
+- memory leak when image change

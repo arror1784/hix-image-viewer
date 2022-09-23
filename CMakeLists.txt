@@ -1,12 +1,12 @@
 cmake_minimum_required(VERSION 3.0.0)
-project(SimpleImageViewerFromIPC VERSION 0.1.0)
+project(hix-image-viewer VERSION 0.1.0)
 
-add_executable(SimpleImageViewerFromIPC main.cpp base64.cpp communicate.h)
+add_executable(hix-image-viewer main.cpp base64.cpp communicate.h)
 
 find_package(PkgConfig REQUIRED)
 pkg_check_modules(GTK3 gtk+-3.0 REQUIRED)
 
-target_include_directories(SimpleImageViewerFromIPC
+target_include_directories(hix-image-viewer
 
 PUBLIC
     /usr/lib/x86_64-linux-gnu/glib-2.0/include/
@@ -16,14 +16,14 @@ PUBLIC
 message("${GTK3_INCLUDE_DIRS}")
 
 
-target_compile_options(SimpleImageViewerFromIPC
+target_compile_options(hix-image-viewer
 PUBLIC
     -Wall
     -Wextra
     -std=c++17
     -no-pie)
 
-target_link_libraries(SimpleImageViewerFromIPC
+target_link_libraries(hix-image-viewer
 PUBLIC
     ${GTK3_LIBRARIES}
     -lrt
@@ -31,7 +31,7 @@ PUBLIC
     -lpthread
     -lstdc++fs
 )
-target_include_directories(SimpleImageViewerFromIPC
+target_include_directories(hix-image-viewer
 PUBLIC
         ${CMAKE_SOURCE_DIR}
         ${GTK3_INCLUDE_DIRS}
