@@ -44,8 +44,6 @@ gboolean draw_callback (GtkWidget *widget, cairo_t *cr, gpointer data)
     if(Communicate::getInstance()._addr == NULL)
         return FALSE;
 
-    std::cout << "HELLO FUCKING WORLD"<< std::endl;
-
     GdkPixbufLoader *loader = gdk_pixbuf_loader_new();
 
     gdk_pixbuf_loader_write (loader,Communicate::getInstance()._addr, s, NULL);
@@ -140,8 +138,6 @@ void ipc_thread(GtkWidget *canvas){
             
             rapidjson::Value& sizeV = d["size"];
             size = sizeV.GetInt();
-
-            std::cout << "image change " << mybuf.mtext << std::endl;
 
             gtk_widget_queue_draw(canvas);
         }
